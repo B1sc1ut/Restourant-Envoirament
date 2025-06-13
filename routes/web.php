@@ -34,3 +34,17 @@ Route::get('/register', function () {
     return view('auth.register');
 })->name('register');
 
+Route::get('lang/{locale}', function ($locale) {
+    if (! in_array($locale, ['en', 'lv'])) {
+        abort(400); // Invalid language
+    }
+
+    session(['locale' => $locale]);
+    return redirect()->back();
+})->name('lang.switch');
+
+// Locale Test Route
+Route::get('/test-page', function () {
+    \Log::debug('Test page: Current locale is ' . app()->getLocale());
+    return 'Locale is ' . app()->getLocale();
+});

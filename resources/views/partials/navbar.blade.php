@@ -9,22 +9,28 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('map') }}">Map</a>
+            <a class="nav-link" href="{{ route('map') }}">{{ __('navbar.map') }}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('products') }}">Products</a>
+            <a class="nav-link" href="{{ route('products') }}">{{ __('navbar.products') }}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('tables') }}">Tables</a>
+            <a class="nav-link" href="{{ route('tables') }}">{{ __('navbar.tables') }}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('userManagment') }}">User Managment</a>
+            <a class="nav-link" href="{{ route('userManagment') }}">{{ __('navbar.userManagment') }}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('login') }}">Login</a>
+            <a class="nav-link" href="{{ route('lang.switch', 'en') }}">EN</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('register') }}">Register</a>
+            <a class="nav-link" href="{{ route('lang.switch', 'lv') }}">LV</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('login') }}">{{ __('navbar.login') }}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('register') }}">{{ __('navbar.register') }}</a>
         </li>
       </ul>
     </div>
