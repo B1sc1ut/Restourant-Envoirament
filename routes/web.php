@@ -51,6 +51,6 @@ Route::middleware('web')->group(function () {
     }
 
     return '✅ Session test: ' . session('test');
-});
+    });
 
 });
