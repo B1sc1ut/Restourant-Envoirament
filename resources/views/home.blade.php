@@ -15,5 +15,23 @@
     <a href="{{ route('lang.switch', ['locale' => 'lv']) }}">Latviski</a> |
     <a href="{{ route('lang.switch', ['locale' => 'en']) }}">English</a>
 
+    @auth
+      <div class="alert alert-success mt-4">
+        You are logged in as: <strong>{{ auth()->user()->email }}</strong><br>
+        Your role is: <strong>{{ auth()->user()->role }}</strong>
+      </div>
+    @else
+      <div class="alert alert-warning mt-4">
+        You are not logged in.
+       </div>
+    @endauth
+    @auth
+      <form action="{{ route('logout') }}" method="POST" class="mt-3">
+        @csrf
+        <button type="submit" class="btn btn-danger">Logout</button>
+      </form>
+    @endauth
+
+
   </div>
 @endsection

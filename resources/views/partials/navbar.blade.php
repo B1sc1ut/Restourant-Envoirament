@@ -26,6 +26,7 @@
         <li class="nav-item">
             <a class="nav-link" href="{{ route('register') }}">{{ __('navbar.register') }}</a>
         </li>
+        
         <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-uppercase" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         {{ app()->getLocale() }}

@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\GoogleController;
 
 Route::middleware('web')->group(function () {
     Route::get('/lang/{locale}', function ($locale) {
@@ -15,10 +18,6 @@ Route::middleware('web')->group(function () {
     Route::get('/', function () {
         return view('home');
     })->name('home');
-
-    Route::get('/about', function () {
-        return view('about');
-    })->name('about');
 
     Route::get('/map', function () {
         return view('map');
@@ -36,13 +35,16 @@ Route::middleware('web')->group(function () {
         return view('userManagment');
     })->name('userManagment');
 
-    Route::get('/login', function () {
-        return view('auth.login');
-    })->name('login');
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
 
-    Route::get('/register', function () {
-        return view('auth.register');
-    })->name('register');
+    Route::get('/register', [RegisterController::class, 'showRegisterForm'])->name('register');
+    Route::post('/register', [RegisterController::class, 'register'])->name('register.submit');
+
+    Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
+    Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::get('/debug-session', function () {
     if (!session()->has('test')) {
@@ -50,7 +52,7 @@ Route::middleware('web')->group(function () {
         return 'Session was empty — now set!';
     }
 
-    return '✅ Session test: ' . session('test');
+    return 'Session test: ' . session('test');
     });
 
 });
