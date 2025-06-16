@@ -27,9 +27,13 @@ Route::middleware('web')->group(function () {
         return view('products');
     })->name('products');
 
-    Route::get('/tables', function () {
-        return view('tables');
-    })->name('tables');
+    Route::get('/menu', function () {
+        return view('menu');
+    })->name('menu');
+
+    Route::get('/orders', function () {
+        return view('orders');
+    })->name('orders');
 
     Route::get('/userManagment', function () {
         return view('userManagment');

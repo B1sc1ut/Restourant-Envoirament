@@ -25,12 +25,7 @@
         You are not logged in.
        </div>
     @endauth
-    @auth
-      <form action="{{ route('logout') }}" method="POST" class="mt-3">
-        @csrf
-        <button type="submit" class="btn btn-danger">Logout</button>
-      </form>
-    @endauth
+    
 
 
   </div>

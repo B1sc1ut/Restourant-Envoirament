@@ -3,8 +3,10 @@
 return [
     'map' => 'Map',
     'products' => 'Products',
-    'tables' => 'Tables',
+    'menu' => 'Menu',
+    'orders' => 'Orders',
     'userManagment' => 'User Managment',
     'login' => 'Login',
     'register' => 'Register',
+    'logout' => 'Logout',
 ];

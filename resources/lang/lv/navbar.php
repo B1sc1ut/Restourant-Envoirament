@@ -3,8 +3,10 @@
 return [
     'map' => 'Karte',
     'products' => 'Produkti',
-    'tables' => 'Galdi',
+    'menu' => 'Ēdienkarte',
+    'orders' => 'Pasūtījumi',
     'userManagment' => 'Lietotāju Pārvaldība',
     'login' => 'Pieslēgties',
     'register' => 'Reģistrēties',
+    'logout' => 'Izrakstīties',
 ];

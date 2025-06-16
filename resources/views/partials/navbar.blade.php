@@ -9,23 +9,39 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('map') }}">{{ __('navbar.map') }}</a>
+            <a class="nav-link" href="{{ route('menu') }}">{{ __('navbar.menu') }}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('orders') }}">{{ __('navbar.orders') }}</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ route('products') }}">{{ __('navbar.products') }}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('tables') }}">{{ __('navbar.tables') }}</a>
+            <a class="nav-link" href="{{ route('map') }}">{{ __('navbar.map') }}</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ route('userManagment') }}">{{ __('navbar.userManagment') }}</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('login') }}">{{ __('navbar.login') }}</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('register') }}">{{ __('navbar.register') }}</a>
-        </li>
+        @guest
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('login') }}">{{ __('navbar.login') }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('register') }}">{{ __('navbar.register') }}</a>
+            </li>
+        @endguest
+
+        @auth
+            <li class="nav-item">
+                <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                    @csrf
+                    <button type="submit" class="nav-link btn btn-link" style="padding: 8; margin: 0; border: none; background: none; cursor: pointer;">
+                        {{ __('navbar.logout') }}
+                    </button>
+                </form>
+            </li>
+        @endauth
         
         <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-uppercase" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
