@@ -59,6 +59,12 @@
                         @endforeach
                     </ul>
                 </li>
+                <li class="nav-item">
+    <a class="nav-link" href="{{ route('cart.view') }}">🛒 View Cart</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{{ route('menuitem.create') }}">Open Menu Item</a>
+</li>
       </ul>
     </div>
   </div>
