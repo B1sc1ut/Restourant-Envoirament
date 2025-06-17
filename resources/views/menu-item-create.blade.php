@@ -49,5 +49,35 @@
         </div>
         <button type="submit" class="btn btn-primary">Create Menu Item</button>
     </form>
+
+    @if(!empty($product->product_img))
+        <div class="mt-3">
+            <h2>Uploaded Image:</h2>
+            <img src="{{ asset('storage/' . $product->product_img) }}" alt="Product Image" style="max-width:200px;">
+        </div>
+    @endif
 </div>
 @endsection
+
+<?php
+use Illuminate\Http\Request;
+
+Route::post('/menu-item/store', function (Request $request) {
+    $request->validate([
+        // ... other validation ...
+        'product_img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
+
+    $imgPath = null;
+    if ($request->hasFile('product_img')) {
+        // Save to 'img' folder in storage/app/public
+        $imgPath = $request->file('product_img')->store('img', 'public');
+    }
+
+    $product = Product::create([
+        // ... other fields ...
+        'product_img' => $imgPath,
+    ]);
+
+    // ... rest of your logic ...
+});

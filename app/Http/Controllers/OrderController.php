@@ -19,7 +19,7 @@ class OrderController extends Controller
         ->leftJoin('products', 'order_product_link.product_id', '=', 'products.id')
         ->leftJoin('product_names', function($join) {
             $join->on('products.id', '=', 'product_names.product_id')
-                 ->where('product_names.locale', '=', 'en');
+                 ->where('product_names.locale', '=', $locale);
         })
         ->select(
             'orders.id as order_id',

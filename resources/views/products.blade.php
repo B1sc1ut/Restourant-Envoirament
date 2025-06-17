@@ -7,24 +7,32 @@
     use App\Models\Product;
     use App\Models\ProductName;
 
+    $locale = app()->getLocale(); // gets 'en', 'lv', etc.
     $product = isset($id) ? Product::find($id) : null;
-    $product_name = isset($id) ? ProductName::where('product_id', $id)->first() : null;
+    $product_name = isset($id) ? ProductName::where('product_id', $id)->where('locale', $locale)->first() : null;
 @endphp
 
 @if ($product)
-    <h1>{{ $product_name->product_name }}</h1>
-    <p><strong>Description:</strong> {{ $product_name->product_description }}</p>
+    <h1>{{ $product_name->product_name ?? 'Unnamed Product' }}</h1>
+    <p><strong>Description:</strong> {{ $product_name->product_description ?? 'N/A' }}</p>
 
     @if ($product_name->product_allergens)
         <p><strong>Allergens:</strong> {{ $product_name->product_allergens }}</p>
     @endif
 
-    @if ($product->product_img)
-        <img src="{{ asset('storage/public/img' . $product->product_img) }}" alt="Product Image">
+    @if(!empty($product->product_img))
+        <img 
+            src="{{ asset('storage/' . ltrim($product->product_img, '/')) }}" 
+            alt="Product Image" 
+            style="max-width:200px;"
+            onerror="this.style.display='none';"
+        >
+    @else
+        <span>No image available.</span>
     @endif
 
     @if ($product->product_price)
-        <p><strong>Price:</strong> {{ $product->product_price}}</p>
+        <p><strong>Price:</strong> €{{ number_format($product->product_price, 2) }}</p>
     @endif
 
     <form method="POST" action="{{ route('cart.add', ['id' => $product->id]) }}">
