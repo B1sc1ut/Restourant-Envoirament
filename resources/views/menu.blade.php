@@ -34,9 +34,9 @@
         <a href="{{ route('product.show', ['id' => $product->id]) }}" style="text-decoration:none; color:inherit;">
             <div class="product">
                 <h2>{{ $product->product_name ?? 'Unnamed Product' }}</h2>
-                <p><strong>Description:</strong> {{ $product->product_description ?? 'N/A' }}</p>
-                <p><strong>Price:</strong> €{{ number_format($product->product_price, 2) }}</p>
-                <p><strong>Allergens:</strong> {{ $product->product_allergens ?? 'None' }}</p>
+                <p><strong>{{ __('product.description') }}</strong> {{ $product->product_description ?? 'N/A' }}</p>
+                <p><strong>{{ __('product.price') }}</strong> €{{ number_format($product->product_price, 2) }}</p>
+                <p><strong>{{ __('product.allergens') }}</strong> {{ $product->product_allergens ?? 'None' }}</p>
                 @if(!empty($product->product_img))
                     <img 
                         src="{{ asset('storage/' . ltrim($product->product_img, '/')) }}" 

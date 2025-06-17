@@ -13,11 +13,11 @@
 @endphp
 
 @if ($product)
-    <h1>{{ $product_name->product_name ?? 'Unnamed Product' }}</h1>
-    <p><strong>Description:</strong> {{ $product_name->product_description ?? 'N/A' }}</p>
+    <h1>{{ $product_name->product_name }}</h1>
+    <p><strong>Description:</strong> {{ $product_name->product_description }}</p>
 
     @if ($product_name->product_allergens)
-        <p><strong>Allergens:</strong> {{ $product_name->product_allergens }}</p>
+        <p><strong>{{ __('product.allergens') }}</strong> {{ $product_name->product_allergens }}</p>
     @endif
 
     @if(!empty($product->product_img))
@@ -32,16 +32,16 @@
     @endif
 
     @if ($product->product_price)
-        <p><strong>Price:</strong> €{{ number_format($product->product_price, 2) }}</p>
+        <p><strong>Price:</strong> {{ $product->product_price}}</p>
     @endif
 
     <form method="POST" action="{{ route('cart.add', ['id' => $product->id]) }}">
         @csrf
-        <label for="amount">Amount:</label>
+        <label for="amount">{{ __('product.amount') }}</label>
         <input type="number" name="amount" id="amount" value="1" min="1" required>
-        <button type="submit">Add to Cart</button>
+        <button type="submit">{{ __('product.add') }}</button>
     </form>
 @else
-    <p>❌ Product not found.</p>
+    <p>{{ __('product.notFound') }}</p>
 @endif
 @endsection

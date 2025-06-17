@@ -63,15 +63,6 @@ Route::middleware('web')->group(function () {
 
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-    Route::get('/debug-session', function () {
-    if (!session()->has('test')) {
-        session()->put('test', 'Session is working');
-        return 'Session was empty — now set!';
-    } 
-
-    return 'Session test: ' . session('test');
-    });
-
     Route::post('/cart/add/{id}', function(Request $request, $id) {
         $amount = (int) $request->input('amount', 1);
         $cart = session()->get('cart', []);

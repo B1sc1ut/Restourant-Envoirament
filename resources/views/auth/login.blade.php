@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container mt-5" style="max-width: 500px;">
-    <h2 class="text-center mb-4">Login</h2>
+    <h2 class="text-center mb-4">{{ __('login.login') }}</h2>
 
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -20,19 +20,19 @@
         @csrf
 
         <div class="mb-3">
-            <label class="form-label">Email address</label>
-            <input type="email" name="email" class="form-control" placeholder="Enter email" value="{{ old('email') }}" required>
+            <label class="form-label">{{ __('login.email') }}</label>
+            <input type="email" name="email" class="form-control" placeholder="{{ __('login.enter') }}" value="{{ old('email') }}" required>
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Password</label>
-            <input type="password" name="password" class="form-control" placeholder="Password" required>
+            <label class="form-label">{{ __('login.password') }}</label>
+            <input type="password" name="password" class="form-control" placeholder="{{ __('login.password') }}" required>
         </div>
 
-        <button type="submit" class="btn btn-primary w-100">Login</button>
+        <button type="submit" class="btn btn-primary w-100">{{ __('login.login') }}</button>
     </form>
     
     <br>
-    <a href="{{ route('google.login') }}" class="btn btn-danger w-100">Login with Google</a>
+    <a href="{{ route('google.login') }}" class="btn btn-danger w-100">{{ __('login.google') }}</a>
 </div>
 @endsection
