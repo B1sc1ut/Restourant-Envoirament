@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Order;
 use App\Models\Category;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\UserManagementController;
 
 
 Route::middleware('web')->group(function () {
@@ -30,6 +31,10 @@ Route::middleware('web')->group(function () {
         Route::get('/user-management', [UserManagementController::class, 'index'])->name('user.management');
         Route::get('/user-management/create', [UserManagementController::class, 'create'])->name('user.management.create');
         Route::post('/user-management/store', [UserManagementController::class, 'store'])->name('user.management.store');
+        Route::patch('/user-management/{user}/block', [UserManagementController::class, 'toggleBlock'])->name('user.management.block');
+        Route::delete('/user-management/{user}', [UserManagementController::class, 'destroy'])->name('user.management.delete');
+        Route::get('/user-management/{user}/edit', [UserManagementController::class, 'edit'])->name('user.management.edit');
+        Route::patch('/user-management/{user}', [UserManagementController::class, 'update'])->name('user.management.update');
     });
 
     Route::get('/', function () {

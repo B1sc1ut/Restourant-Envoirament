@@ -26,7 +26,7 @@
 
         @if (in_array(Auth::user()->role, ['admin', 'manager']))
         <li class="nav-item">
-          <a class="nav-link" href="{{ route('userManagment') }}">{{ __('navbar.userManagment') }}</a>
+          <a class="nav-link" href="{{ route('user.management') }}">{{ __('navbar.userManagment') }}</a>
         </li>
         @endif
 
