@@ -34,6 +34,12 @@ class Product extends Model
 
     public function productName()
     {
-        return $this->hasOne(\App\Models\ProductName::class, 'product_id', 'id');
+        return $this->belongsTo(ProductName::class, 'product_name_id');
     }
+
+    public function orders()
+{
+    return $this->belongsToMany(Order::class, 'order_product_link')
+                ->withPivot('amount');
+}
 }

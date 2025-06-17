@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Order;
 use App\Models\Category;
+use App\Http\Controllers\OrderController;
 
 
 Route::middleware('web')->group(function () {
@@ -24,6 +25,12 @@ Route::middleware('web')->group(function () {
         Session::put('locale', $locale);
         return redirect()->back();
     })->name('lang.switch');
+
+    Route::middleware(['role:admin,manager'])->group(function () {
+        Route::get('/user-management', [UserManagementController::class, 'index'])->name('user.management');
+        Route::get('/user-management/create', [UserManagementController::class, 'create'])->name('user.management.create');
+        Route::post('/user-management/store', [UserManagementController::class, 'store'])->name('user.management.store');
+    });
 
     Route::get('/', function () {
         return view('home');
@@ -37,11 +44,9 @@ Route::middleware('web')->group(function () {
         return view('map');
     })->name('map');
 
-    Route::get('/menu', [MenuController::class, 'search'])->name('menu');
+    Route::middleware('auth')->get('/orderHistory', [OrderController::class, 'orderHistory'])->name('orderHistory');
 
-    Route::get('/userManagment', function () {
-        return view('userManagment');
-    })->name('userManagment');
+    Route::get('/menu', [MenuController::class, 'search'])->name('menu');
 
     Route::get('/product/{id}', function ($id) {
             return view('products', ['id' => $id]);
@@ -106,7 +111,12 @@ Route::middleware('web')->group(function () {
     Route::post('/cart/pay', function (\Illuminate\Http\Request $request) {
         $tableId = $request->input('table_number'); // Actually table_id now
         $cart = session('cart', []);
-        $userId = Auth::id() ?? 1; // Use authenticated user or fallback to 1
+        if(Auth::check()){
+            $userId = Auth::id();
+        }
+        else{
+            $userId = null;
+        }
 
         // 1. Create the order
         $orderId = DB::table('orders')->insertGetId([
@@ -152,6 +162,8 @@ Route::middleware('web')->group(function () {
     })->name('all.orders');
 
     Route::get('/tables', function () {
+        $locale = app()->getLocale();
+
         $orders = DB::table('orders')
             ->join('tables', 'orders.table_id', '=', 'tables.id')
             ->select('orders.id', 'orders.table_id', 'tables.id as table_name', 'orders.created_at')
@@ -163,7 +175,7 @@ Route::middleware('web')->group(function () {
             $order->items = DB::table('order_product_link')
                 ->join('product_names', 'order_product_link.product_id', '=', 'product_names.product_id')
                 ->where('order_product_link.order_id', '=', $order->id)
-                ->where('product_names.locale', '=', 'en') // Only English names
+                ->where('product_names.locale', '=', $locale)
                 ->select('product_names.product_name', 'order_product_link.amount')
                 ->get();
         }
@@ -171,10 +183,12 @@ Route::middleware('web')->group(function () {
         return view('tables', compact('orders'));
     })->name('tables.view');
     Route::get('/orders/{id}/details', function ($id) {
+        $locale = app()->getLocale();
+        
         $items = DB::table('order_product_link')
             ->join('product_names', 'order_product_link.product_id', '=', 'product_names.product_id')
             ->where('order_product_link.order_id', $id)
-            ->where('product_names.locale', '=', 'en') // Only English names
+            ->where('product_names.locale', '=', $locale)
             ->select('product_names.product_name', 'order_product_link.amount')
             ->get();
 

@@ -4,12 +4,12 @@
 
 @section('content')
 
-<h1>Product Search</h1>
+<h1>{{ __('menu.title') }}</h1>
 
 <form id="menuSearchForm" method="GET" action="{{ url('/menu') }}">
-    <label for="category">Category:</label>
+    <label for="category">{{ __('menu.category') }}</label>
     <select name="category" id="category">
-        <option value="">All</option>
+        <option value="">{{ __('menu.all') }}</option>
         @foreach ($categories as $cat)
             <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>
                 {{ $cat->category_name ?? $cat->name }}
@@ -17,14 +17,14 @@
         @endforeach
     </select>
 
-    <label for="sort">Sort by price:</label>
+    <label for="sort">{{ __('menu.sort') }}</label>
     <select name="sort" id="sort">
-        <option value="">None</option>
-        <option value="asc" {{ request('sort') == 'asc' ? 'selected' : '' }}>Lowest First</option>
-        <option value="desc" {{ request('sort') == 'desc' ? 'selected' : '' }}>Highest First</option>
+        <option value="">{{ __('menu.none') }}</option>
+        <option value="asc" {{ request('sort') == 'asc' ? 'selected' : '' }}>{{ __('menu.low') }}</option>
+        <option value="desc" {{ request('sort') == 'desc' ? 'selected' : '' }}>{{ __('menu.high') }}</option>
     </select>
 
-    <button type="submit">Search</button>
+    <button type="submit">{{ __('menu.search') }}</button>
 </form>
 
 <hr>

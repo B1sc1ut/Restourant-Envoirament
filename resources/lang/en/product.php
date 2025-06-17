@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'map' => 'Map',
-    'products' => 'Products',
+    'map' => 'Description:',
+    'products' => 'Allergens:',
     'menu' => 'Menu',
     'orders' => 'Orders',
     'userManagment' => 'User Managment',

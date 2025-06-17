@@ -1,15 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Product Info</title>
-    <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        img { max-width: 300px; height: auto; margin-top: 15px; }
-    </style>
-</head>
-<body>
+@extends('layouts.app')
 
+@section('title', 'Products')
+
+@section('content')
 @php
     use App\Models\Product;
     use App\Models\ProductName;
@@ -43,3 +36,4 @@
 @else
     <p>❌ Product not found.</p>
 @endif
+@endsection

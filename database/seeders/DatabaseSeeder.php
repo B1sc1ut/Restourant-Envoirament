@@ -101,9 +101,18 @@ class DatabaseSeeder extends Seeder
                 'id' => 1,
                 'email' => "ish@email.com",
                 'password' => "easports",
+                'role' => 'admin',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+        ]);
+
+        DB::table('tables')->insert([
+            ['table_number' => 1],
+            ['table_number' => 2],
+            ['table_number' => 3],
+            ['table_number' => 4],
+            ['table_number' => 5],
         ]);
     }
 }

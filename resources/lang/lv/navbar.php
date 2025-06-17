@@ -9,4 +9,6 @@ return [
     'login' => 'Pieslēgties',
     'register' => 'Reģistrēties',
     'logout' => 'Izrakstīties',
+    'orderHistory' => 'Pasūtījumu Vēsture',
+    'cart' => 'Grozs',
 ];

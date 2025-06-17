@@ -6,18 +6,21 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
 
 class MenuController extends Controller
 {
     public function search(Request $request)
     {
+        $locale = App::getLocale();
+
         $categoryId = $request->input('category');
         $sort = $request->input('sort');
 
         $productsQuery = DB::table('products')
-            ->leftJoin('product_names', function($join) {
+            ->leftJoin('product_names', function($join) use ($locale) {
                 $join->on('products.id', '=', 'product_names.product_id')
-                     ->where('product_names.locale', '=', 'en'); // Only English
+                     ->where('product_names.locale', '=', $locale);
             })
             ->select(
                 'products.id',

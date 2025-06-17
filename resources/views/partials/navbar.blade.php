@@ -12,17 +12,41 @@
             <a class="nav-link" href="{{ route('menu') }}">{{ __('navbar.menu') }}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('orders') }}">{{ __('navbar.orders') }}</a>
-        </li>
-        <li class="nav-item">
             <a class="nav-link" href="{{ route('products') }}">{{ __('navbar.products') }}</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('cart.view') }}">{{ __('navbar.cart') }}</a>
+        </li>
+        
+        
+        @auth
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('orderHistory') }}">{{ __('navbar.orderHistory') }}</a>
+        </li>
+
+        @if (in_array(Auth::user()->role, ['admin', 'manager']))
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('userManagment') }}">{{ __('navbar.userManagment') }}</a>
+        </li>
+        @endif
+
+        @if (Auth::user()->role === 'waiter')
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('map') }}">{{ __('navbar.map') }}</a>
+        </li>
+        @endif
+        
+
+        @if (Auth::user()->role === 'chef')
         <li class="nav-item">
             <a class="nav-link" href="{{ route('map') }}">{{ __('navbar.map') }}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('userManagment') }}">{{ __('navbar.userManagment') }}</a>
+            <a class="nav-link" href="{{ route('menuitem.create') }}">Open Menu Item</a>
         </li>
+        @endif
+        @endauth
+
         @guest
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('login') }}">{{ __('navbar.login') }}</a>
@@ -42,29 +66,24 @@
                 </form>
             </li>
         @endauth
-        
+
         <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-uppercase" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        {{ app()->getLocale() }}
+            <a class="nav-link dropdown-toggle text-uppercase" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {{ app()->getLocale() }}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                @foreach (['en' => 'English', 'lv' => 'Latviešu'] as $lang => $language)
+                @if ($lang !== app()->getLocale())
+                <li>
+                    <a class="dropdown-item" href="{{ route('lang.switch', $lang) }}">
+                        {{ $language }}
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
-                        @foreach (['en' => 'English', 'lv' => 'Latviešu'] as $lang => $language)
-                            @if ($lang !== app()->getLocale())
-                                <li>
-                                    <a class="dropdown-item" href="{{ route('lang.switch', $lang) }}">
-                                        {{ $language }}
-                                    </a>
-                                </li>
-                            @endif
-                        @endforeach
-                    </ul>
                 </li>
-                <li class="nav-item">
-    <a class="nav-link" href="{{ route('cart.view') }}">🛒 View Cart</a>
-</li>
-<li class="nav-item">
-    <a class="nav-link" href="{{ route('menuitem.create') }}">Open Menu Item</a>
-</li>
+                @endif
+                @endforeach
+            </ul>
+        </li>
+
       </ul>
     </div>
   </div>
