@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id('id');
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('table_id')->constrained('tables')->onDelete('cascade');
+            $table->string('status')->default('cooking'); // Use string for status and set a default value
+            $table->timestamp('fulfilled_at')->nullable(); // Add fulfilled_at column
             $table->timestamps();
         });
 

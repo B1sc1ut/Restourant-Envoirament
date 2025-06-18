@@ -25,15 +25,22 @@
             <td>{{ $user->email }}</td>
             <td>{{ ucfirst($user->role) }}</td>
             <td>
-                @if(auth()->user()->role === 'admin')
-                    <a href="{{ route('user.management.edit', $user->id) }}" class="btn btn-sm btn-info">Edit Role</a>
-                @endif
-
-                {{-- Existing delete button --}}
-                <form action="{{ route('user.management.delete', $user->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Delete user?');">
+                <form action="{{ route('users.roles.update') }}" method="POST" style="display:inline;">
+                    @csrf
+                    <input type="hidden" name="user_id" value="{{ $user->id }}">
+                    <select name="role" class="form-select" style="display:inline; width:auto;">
+                        <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>User</option>
+                        <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
+                        <option value="manager" {{ $user->role == 'manager' ? 'selected' : '' }}>Manager</option>
+                        <option value="waiter" {{ $user->role == 'waiter' ? 'selected' : '' }}>Waiter</option>
+                        <option value="chef" {{ $user->role == 'chef' ? 'selected' : '' }}>Chef</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                </form>
+                <form action="{{ route('users.delete', $user->id) }}" method="POST" style="display:inline;">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    <button class="btn btn-danger btn-sm">Delete</button>
                 </form>
             </td>
         </tr>

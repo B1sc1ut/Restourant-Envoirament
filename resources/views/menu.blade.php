@@ -58,13 +58,4 @@
 $product = isset($id) ? Product::find($id) : null;
 $product_name = isset($id) ? ProductName::find($id) : null;
 ?>
-
-@if($product_name)
-    <h1>{{ $product_name->product_name }}</h1>
-    <p>{{ $product_name->product_description }}</p>
-@else
-    <h1>Unnamed Product</h1>
-    <p>No description available.</p>
-@endif
-
 @endsection

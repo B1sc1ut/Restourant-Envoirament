@@ -26,13 +26,29 @@
                 <td>{{ $order->id }}</td>
                 <td>{{ $order->table_name }}</td>
                 <td>{{ $order->created_at }}</td>
+                <td>{{ ucfirst($order->status ?? '') }}</td> <!-- Safely access status -->
                 <td>
                     <a href="{{ route('order.details', $order->id) }}" class="btn btn-info">Show Order</a>
                 </td>
                 <td>
+                    @if(auth()->user()->role === 'chef')
+                        <form method="POST" action="{{ route('orders.status.update', $order->id) }}">
+                            @csrf
+                            <select name="status" class="form-select" style="width:auto; display:inline;">
+                                <option value="cooking" {{ ($order->status ?? '') == 'cooking' ? 'selected' : '' }}>Cooking</option>
+                                <option value="cooked" {{ ($order->status ?? '') == 'cooked' ? 'selected' : '' }}>Cooked</option>
+                                <option value="finished" {{ ($order->status ?? '') == 'finished' ? 'selected' : '' }}>Finished</option>
+                            </select>
+                            <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                        </form>
+                    @else
+                    
+                    @endif
+                </td>
+                <td>
                     <form method="POST" action="{{ route('orders.fulfill', $order->id) }}">
                         @csrf
-                        <button type="submit" class="btn btn-success">Order Fulfilled</button>
+                        <button type="submit" class="btn btn-success">Order Fullfilled</button>
                     </form>
                 </td>
             </tr>

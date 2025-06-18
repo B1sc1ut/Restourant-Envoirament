@@ -12,9 +12,6 @@
             <a class="nav-link" href="{{ route('menu') }}">{{ __('navbar.menu') }}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('products') }}">{{ __('navbar.products') }}</a>
-        </li>
-        <li class="nav-item">
             <a class="nav-link" href="{{ route('cart.view') }}">{{ __('navbar.cart') }}</a>
         </li>
         
@@ -32,14 +29,14 @@
 
         @if (Auth::user()->role === 'waiter')
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('map') }}">{{ __('navbar.map') }}</a>
+            <a class="nav-link" href="{{ route('tables.view') }}">{{ __('navbar.map') }}</a>
         </li>
         @endif
         
 
         @if (Auth::user()->role === 'chef')
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('map') }}">{{ __('navbar.map') }}</a>
+            <a class="nav-link" href="{{ route('tables.view') }}">{{ __('navbar.map') }}</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ route('menuitem.create') }}">Open Menu Item</a>

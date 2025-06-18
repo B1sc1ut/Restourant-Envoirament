@@ -5,13 +5,16 @@
 @section('content')
     <h1>Order History</h1>
 
-    @forelse($orders as $orderId => $orderItems)
+    @forelse($orders as $orderGroup)
+        @php
+            $first = reset($orderGroup); // Get the first item in the group
+        @endphp
         <div class="card mb-3">
             <div class="card-header">
-                Order #{{ $orderId }} | Table: {{ $orderItems->first()->table_number }} | Date: {{ $orderItems->first()->created_at }}
+                Order #{{ $first['id'] }} | Table: {{ $first['table_name'] }} | Date: {{ $first->created_at }}
             </div>
             <ul class="list-group list-group-flush">
-                @foreach($orderItems as $item)
+                @foreach($orderGroup as $item)
                     <li class="list-group-item">
                         Product: {{ $item->product_name ?? 'Unnamed Product' }} | Amount: {{ $item->amount }}
                     </li>

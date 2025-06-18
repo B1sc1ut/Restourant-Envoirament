@@ -16,6 +16,7 @@ use App\Models\Order;
 use App\Models\Category;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserManagementController;
+use App\Models\User;
 
 
 Route::middleware('web')->group(function () {
@@ -46,8 +47,16 @@ Route::middleware('web')->group(function () {
     })->name('products');
 
     Route::get('/map', function () {
-        return view('map');
-    })->name('map');
+        // Fetch any data you need for the tables view, for example:
+        $orders = DB::table('orders')
+            ->join('tables', 'orders.table_id', '=', 'tables.id')
+            ->select('orders.id', 'orders.table_id', 'tables.id as table_name', 'orders.created_at')
+            ->whereNull('orders.fulfilled_at')
+            ->orderBy('orders.created_at', 'asc')
+            ->get();
+
+        return view('tables', compact('orders'));
+    });
 
     Route::middleware('auth')->get('/orderHistory', [OrderController::class, 'orderHistory'])->name('orderHistory');
 
@@ -140,8 +149,14 @@ Route::middleware('web')->group(function () {
     Route::get('/orders', function () {
         $orders = DB::table('orders')
             ->join('tables', 'orders.table_id', '=', 'tables.id')
-            ->select('orders.id', 'orders.table_id', 'tables.id as table_name', 'orders.created_at')
-            ->whereNull('orders.fulfilled_at') // Only show unfulfilled orders
+            ->select(
+                'orders.id',
+                'orders.table_id',
+                'tables.id as table_name',
+                'orders.created_at',
+                'orders.status' // <-- Make sure this is here!
+            )
+            ->whereNull('orders.fulfilled_at')
             ->orderBy('orders.created_at', 'asc')
             ->get();
 
@@ -162,19 +177,16 @@ Route::middleware('web')->group(function () {
 
         $orders = DB::table('orders')
             ->join('tables', 'orders.table_id', '=', 'tables.id')
-            ->select('orders.id', 'orders.table_id', 'tables.id as table_name', 'orders.created_at')
+            ->select(
+                'orders.id',
+                'orders.table_id',
+                'tables.id as table_name',
+                'orders.created_at',
+                'orders.status' // Ensure this is included
+            )
             ->whereNull('orders.fulfilled_at')
             ->orderBy('orders.created_at', 'asc')
             ->get();
-
-        foreach ($orders as $order) {
-            $order->items = DB::table('order_product_link')
-                ->join('product_names', 'order_product_link.product_id', '=', 'product_names.product_id')
-                ->where('order_product_link.order_id', '=', $order->id)
-                ->where('product_names.locale', '=', $locale)
-                ->select('product_names.product_name', 'order_product_link.amount')
-                ->get();
-        }
 
         return view('tables', compact('orders'));
     })->name('tables.view');
@@ -232,4 +244,31 @@ Route::middleware('web')->group(function () {
 
         return redirect()->route('menuitem.create')->with('success', 'Menu item created!');
     })->name('menuitem.store');
+
+    Route::post('/users/roles/update', function (Request $request) {
+    $request->validate([
+        'user_id' => 'required|exists:users,id',
+        'role' => 'required|string',
+    ]);
+    $user = User::find($request->user_id);
+    $user->role = $request->role;
+    $user->save();
+    return redirect()->back()->with('success', 'User role updated!');
+})->name('users.roles.update');
+
+    Route::delete('/users/{id}/delete', function ($id) {
+        $user = User::findOrFail($id);
+        $user->delete();
+        return redirect()->back()->with('success', 'User deleted!');
+    })->name('users.delete');
+
+    Route::post('/orders/{id}/status', function (Request $request, $id) {
+        $request->validate([
+            'status' => 'required|in:cooking,cooked,finished',
+        ]);
+        $order = Order::findOrFail($id);
+        $order->status = $request->status;
+        $order->save();
+        return redirect()->back()->with('success', 'Order status updated!');
+    })->name('orders.status.update');
 });
